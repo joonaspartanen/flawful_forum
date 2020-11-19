@@ -74,10 +74,8 @@ def all_users(request):
 
 # On startup, the application creates two test users whose passwords can be found in the source code. An obvious vulnerability.
 def initialize_users():
-    admin = User.objects.get(username="superadmin")
-    if not admin:
-        User.objects.create_user("superadmin", "admin@example.com", "verysecret")
+    if not User.objects.filter(username="superadmin").exists():
+        User.objects.create_superuser("superadmin", "admin@example.com", "verysecret")
 
-    user = User.objects.get(username="testuser")
-    if not user:
+    if not User.objects.filter(username="testuser").exists():
         User.objects.create_user("testuser", "user@example.com", "quitesecret")
