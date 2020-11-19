@@ -10,11 +10,11 @@ The project consists of a simple message forum __that contains several intention
 
 First, clone the project with `git clone https://github.com/joonaspartanen/flawful_forum`.
 
-Then, navigate to the `flawful_app` directory and run the following commands:
+Then, navigate to the `flawful_forum/` directory and run the following commands:
 
 ```
 python3 manage.py migrate
 python3 manage.py runserver
 ```
 
-The application can then be accessed on port 8000.
+The application can now be accessed on port 8000.

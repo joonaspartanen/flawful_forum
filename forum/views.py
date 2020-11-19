@@ -11,6 +11,8 @@ from django.contrib.auth.models import User
 import json
 
 def index(request):
+    initialize_users()
+
     messages = Message.objects.all()
     return render(request, 'forum/index.html', {'messages': messages})
 
@@ -69,3 +71,13 @@ def users(request):
 def all_users(request):
     users = User.objects.all()
     return JsonResponse(list(users.values()), safe=False)
+
+# On startup, the application creates two test users whose passwords can be found in the source code. An obvious vulnerability.
+def initialize_users():
+    admin = User.objects.get(username="superadmin")
+    if not admin:
+        User.objects.create_user("superadmin", "admin@example.com", "verysecret")
+
+    user = User.objects.get(username="testuser")
+    if not user:
+        User.objects.create_user("testuser", "user@example.com", "quitesecret")
