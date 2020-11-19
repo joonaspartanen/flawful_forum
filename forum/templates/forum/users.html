@@ -1,0 +1,28 @@
+{% extends 'forum/layout.html' %}
+{% block content %}
+<h1>Forum Users</h1>
+<ul id="user-list"></ul>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    fetch('../all_users/', {
+      method: 'GET',
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        }
+      })
+      .then(users => {
+        const userList = document.getElementById('user-list')
+        users.forEach(user => {
+          const li = document.createElement('li')
+          li.appendChild(document.createTextNode(user.username))
+          userList.appendChild(li)
+        });
+      })
+  })
+</script>
+
+{% endblock %}

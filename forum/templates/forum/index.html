@@ -1,0 +1,61 @@
+{% extends 'forum/layout.html' %}
+
+{% block content %}
+
+  <h1>Flawful Forum</h1>
+
+  {% if user.is_authenticated %}
+  <h2>Add new post</h2>
+  <form action="posts/" method="POST">
+    <div class="form-row">
+      <label for="subject">Subject</label>
+      <input name="subject" />
+    </div>
+    <div class="form-row">
+      <label for="body">Message body</label>
+      <textarea name="body"></textarea>
+    </div>
+    <input class="button submit-button" type="submit" />
+  </form>
+  {% endif %}
+
+  <h2>Latest posts</h2>
+  <section class="posts">
+    {% if messages|length > 0 %}
+      {% for message in messages %}
+      <article class="post-wrapper" id='post-{{message.id}}'>
+        <h3 class="post-subject">{{message.subject}}</h3>
+        <!--VULNERABILITY: Renders user supplied HTML without escaping. -->
+        <div class="post-body">{{message.body | safe}}</div>
+        <div class="post-meta">Posted by: {{message.author.username}}</div>
+        {% if message.author == user %}
+        <button class="button delete-button" onclick="deletePost('{{message.id}}')">
+          Delete
+        </button>
+        {% endif %}
+      </article>
+      {% endfor %}
+    {% else %}
+      <div style="text-align: center;">
+        There are no posts.
+      </div>
+    {% endif %}
+  </section>
+
+  <script>
+    function deletePost(id) {
+      const data = {id: id}
+
+      fetch('posts/', {
+        method: 'DELETE',
+        body: JSON.stringify(data)
+      }).then(response => {
+        if (response.ok) {
+          const messageToDelete = document.getElementById(`post-${id}`)
+          messageToDelete.remove()
+        }
+      })
+    }
+  </script>
+
+{% endblock %}

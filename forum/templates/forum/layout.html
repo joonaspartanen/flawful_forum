@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flawful Forum</title>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li>
+        <a href="{% url 'index' %}">Forum</a>
+      </li>
+      <li>
+        <a href="{% url 'users' %}">All users</a>
+      </li>
+      <li>
+        {% if not user.is_authenticated %}
+        <form class="login-form" action="login/" method="POST">
+          <input placeholder="Username" type="text" name="username" required/>
+          <input placeholder="Password" type="password" name="password" required/>
+          <input class="button" type="submit" value="Log in"/>
+        </form>
+        {% else %}
+          <div>{{user}} logged in</div>
+        {% endif %}
+      </li>
+      {% if user.is_authenticated %}
+        <li>
+          <button class="button"><a href="{% url 'logout' %}">Log out</a></button>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <section class="main-content">
+  {% block content %}
+  {% endblock %}
+  </section>
+
+</body>
+</html>
+
+<style>
+  body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  nav {
+    display: flex;
+    background-color: darkslategrey;
+    position: fixed;
+    width: 100%;
+  }
+
+  nav > ul {
+    display: flex;
+  }
+
+  nav > ul > li {
+    color: #fff;
+    list-style: none;
+    padding: 0 1em;
+    font-weight: bold;
+    border-right: 2px solid lightgray;
+  }
+
+  nav > ul > li:last-child {
+    border: none;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .login-form input {
+    margin-right: 1em;
+    max-width: 100px;
+  }
+
+  .main-content {
+    padding: 3em 0;
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  form label {
+    display: block;
+    font-size: 0.7em;
+  }
+  form .form-row {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1em;
+  }
+
+  form textarea {
+    min-height: 200px;
+  }
+
+  .button {
+    background-color:darkslategrey;
+    color: #fff;
+    max-width: 100px;
+    cursor: pointer;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .submit-button {
+    padding: 0.5rem;
+  }
+
+  .posts {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-wrapper {
+    border: 1px solid grey;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .post-subject {
+    margin: 0 0 0.5rem 0;
+  }
+
+  .post-body {
+    margin-bottom: 0.5rem;
+  }
+
+  .post-meta {
+    font-size: 0.7em;
+    color: grey;
+  }
+
+  .delete-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: darkslategrey;
+    color: #fff;
+    font-size: 0.7em;
+    padding: 0.3rem;
+  }
+</style>
