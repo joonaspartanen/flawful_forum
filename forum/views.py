@@ -6,7 +6,6 @@ from .models import Message
 from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import json
 
